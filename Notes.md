@@ -19,8 +19,8 @@ Before we talk about game theory, let's first define the way in which the four e
 ### Elemental Hierarchy
 
 <span>
-<img src="./pictures/ed_character.jpg" alt="drawing" width="400"/>
-<img src="./pictures/ed_names.jpg" alt="drawing" width="400"/>
+<img src="./pictures/ed_character.jpeg" alt="drawing" height="300"/>
+<img src="./pictures/ed_names.jpeg" alt="drawing" height="300"/>
 </span>
 
 Similarly to how in RPS, rock beats scissors, scissors beats paper, and paper beats rock, we establish an elemental ordering for our game. Namely Earth beats Water, Water beats Fire, Fire beats Air, and Air beats Earth. Unlike RPS, we also introduce a notion of "draws", where Water and Air tie with each other, as do Earth and Fire. To simplify things, we do not permit self loops (elements tie with themselves).
