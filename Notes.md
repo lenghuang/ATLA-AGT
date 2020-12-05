@@ -64,6 +64,34 @@ Writing out every action profile and mapping it to a certain utility gets redund
 
 > So if the above table represents our normal-form game, we might say that the row's represent Aang's choices, and the column's Bang's choices. For example, if Aang uses an Air attack and Bang uses and Earth attack, we go to the Air row and Earth column. In other words, at (Air, Earth), we see that our utility is the tuple (1,-1). Meaning Aang has a positive utility and Bang has a negative utility. This follows with our intuition since (according to our elemental hierarchy), Air beats Earth!
 
+### Nash Equilibrium
+
+Now that we've set the stage for talking about the final battle between Aang and Bang within the context of Game Theory, as well as it's accompanying mathematical definitions, let's discuss more about the strategies either avatar will employ to defeat one another.
+
+In game theory, there are two kinds of strategies:
+
+- **Pure Strategy** is if a player always chooses a single action.
+  - In other words, a player _i_ will pick an action _s \in S \_i_ with probability
+  - If we model a fight between and Avatar Aang and Zuko, the Avatar will always pick a Water attack, since Zuko is a firebender.
+    - Consider _S\_\{Avatar} = {Earth, Fire, Water, Air}_ and _S\_\{Zuko} = {Fire}_
+    - Since Zuko can only attack with Fire... `utility(Water, Fire) = 1`, which is the largest utility for all other actions of Avatar Aang
+    - Aang will always pick water to defeat Zuko
+  - We can represent this as a tuple `(0, 0, 1, 0)`, representing the probability that Aang selects each element to attack with.
+- **Mixed Strategy** is if a player chooses between at least two actions with varying probabilities.
+  - In other words, a player _i_ will pick an action _s \in S \_i_ with probability
+  - If we model a fight between and Avatar Aang and Zutara (a mixed water/fire bender), the Avatar will either pick Earth or Water.
+    - Consider _S\_\{Avatar} = {Earth, Fire, Water, Air}_ and _S\_\{Zutara} = {Water, Fire}_
+    - If Zutara attacks with Water... `utility(Earth, Water) = 1`
+    - If Zutara attacks with Fire... `utility(Water, Fire) = 1`
+    - Aang maximizes his utility by attacking with either Earth or Water
+  - We can represent this as a tuple `(0.5, 0, 0.5, 0)`, representing the probability that Aang selects each element to attack with.
+
+With these strategies in mind, we have a few different ways to reason about their effectiveness.
+
+- **Expected Utility**
+- **Best Response**
+- **Nash Equilibrium**
+
 It's important to understand the above ideas about game theory, as well as their formal mathematical definitions before we move on to explore a particular way to reason about games: **Regret Minimization**.
 
 ## Code a website where you can test the algorithm on different inputs
