@@ -23,7 +23,7 @@ Before we talk about game theory, let's first define the way in which the four e
 <img src="./pictures/ed_names.jpg" alt="drawing" width="400"/>
 </span>
 
-Similarly to how in RPS, rock beats scissors, scissors beats paper, and paper beats rock, we establish an elemental ordering for our game. Namely Earth beats Water, Water beats Fire, Fire beats Air, and Air beats Earth. Unlike RPS, we also introduce a notion of "draws", where Water and Air tie with each other, as do Earth and Fire.
+Similarly to how in RPS, rock beats scissors, scissors beats paper, and paper beats rock, we establish an elemental ordering for our game. Namely Earth beats Water, Water beats Fire, Fire beats Air, and Air beats Earth. Unlike RPS, we also introduce a notion of "draws", where Water and Air tie with each other, as do Earth and Fire. To simplify things, we do not permit self loops (elements tie with themselves).
 
 ### Definitions
 
@@ -62,7 +62,7 @@ Writing out every action profile and mapping it to a certain utility gets redund
 | **Water** | (-1,1) | (1,-1) | (0,0)  | (0,0)  |
 | **Air**   | (1,-1) | (-1,1) | (0,0)  | (0,0)  |
 
-> So if the above table represents our normal-form game, we might say that the row's represent Aang's choices, and the columns's Bang's choices. For example, if Aang uses an Air attack and Bang uses and Earth attack, we go to the Air row and Earth column. In other words, at (Air, Earth), we see that our utility is the tuple (1,-1). Meaning Aang has a pos0itive utility and Bang has a negative utility. This follows with our intuition since (according to our elemental hierarchy), Air beats Earth!
+> So if the above table represents our normal-form game, we might say that the row's represent Aang's choices, and the column's Bang's choices. For example, if Aang uses an Air attack and Bang uses and Earth attack, we go to the Air row and Earth column. In other words, at (Air, Earth), we see that our utility is the tuple (1,-1). Meaning Aang has a positive utility and Bang has a negative utility. This follows with our intuition since (according to our elemental hierarchy), Air beats Earth!
 
 It's important to understand the above ideas about game theory, as well as their formal mathematical definitions before we move on to explore a particular way to reason about games: **Regret Minimization**.
 
