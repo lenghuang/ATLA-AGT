@@ -25,6 +25,8 @@ Before we talk about game theory, let's first define the way in which the four e
 
 Similarly to how in RPS, rock beats scissors, scissors beats paper, and paper beats rock, we establish an elemental ordering for our game. Namely Earth beats Water, Water beats Fire, Fire beats Air, and Air beats Earth. Unlike RPS, we also introduce a notion of "draws", where Water and Air tie with each other, as do Earth and Fire. To simplify things, we do not permit self loops (elements tie with themselves).
 
+I will now go on to define some terms needed to understand Algorithmic Game Theory. If you are comfortable, feel free to skip the nested bullet points and just read the main ones. The nested bullet points serve to provide more in depth explanations, examples, and metaphors to help with understanding.
+
 ### Definitions
 
 We will be referring to the following definitions and notations when talking about a **normal-form game (N, A, u)**.
@@ -41,42 +43,46 @@ We will be referring to the following definitions and notations when talking abo
   - For our game, the following `SML` function represents what our utility is. This is the exact same thing as the **Elemental Hierarchy** images, just written out more formally to help us better understand the game theory interpretation.
 
 ```sml
-  datatype Element = Earth | Water | Fire | Air
-  fun utility ((Water, Fire) : Element * Element) : int = 1
-    | utility ((Fire, Water) : Element * Element) : int = ~1
-    | utility ((Water, Water) : Element * Element) : int = 0
-    | utility ((Fire, Fire) : Element * Element) : int = 0
+  datatype action = Earth | Water | Fire | Air
+  type actionProfile = action * action
+
+  fun utility ((Water, Fire)  : actionProfile) : int = 1
+    | utility ((Fire,  Water) : actionProfile) : int = ~1
+    | utility ((Water, Water) : actionProfile) : int = 0
+    | utility ((Fire,  Fire)  : actionProfile) : int = 0
     | ...
     | ...
     | ...
-    | utility ((Air, Earth) : Element * Element) : int = 1
+    | utility ((Air,   Earth) : actionProfile) : int = 1
 
 ```
 
 Writing out every action profile and mapping it to a certain utility gets redundant, so a common representation of a utility function, as well as just normal-form games is a table. This is usually for two player games with smaller action profiles, as it can get more complicated with larger action profiles and more players.
 
-|           | Earth  | Fire   | Water  | Air    |
+|           | Earth  | Water  | Fire   | Air    |
 | --------- | ------ | ------ | ------ | ------ |
-| **Earth** | (0,0)  | (0,0)  | (1,-1) | (-1,1) |
-| **Fire**  | (0,0)  | (0,0)  | (-1,1) | (1,-1) |
-| **Water** | (-1,1) | (1,-1) | (0,0)  | (0,0)  |
-| **Air**   | (1,-1) | (-1,1) | (0,0)  | (0,0)  |
+| **Earth** | (0,0)  | (1,-1) | (0,0)  | (-1,1) |
+| **Fire**  | (0,0)  | (-1,1) | (0,0)  | (1,-1) |
+| **Water** | (-1,1) | (0,0)  | (1,-1) | (0,0)  |
+| **Air**   | (1,-1) | (0,0)  | (-1,1) | (0,0)  |
 
 > So if the above table represents our normal-form game, we might say that the row's represent Aang's choices, and the column's Bang's choices. For example, if Aang uses an Air attack and Bang uses and Earth attack, we go to the Air row and Earth column. In other words, at (Air, Earth), we see that our utility is the tuple (1,-1). Meaning Aang has a positive utility and Bang has a negative utility. This follows with our intuition since (according to our elemental hierarchy), Air beats Earth!
 
-### Nash Equilibrium
+### Pure vs Mixed Strategies
 
 Now that we've set the stage for talking about the final battle between Aang and Bang within the context of Game Theory, as well as it's accompanying mathematical definitions, let's discuss more about the strategies either avatar will employ to defeat one another.
 
 In game theory, there are two kinds of strategies:
 
 - **Pure Strategy** is if a player always chooses a single action.
+
   - In other words, a player _i_ will pick an action _s \in S \_i_ with probability
   - If we model a fight between and Avatar Aang and Zuko, the Avatar will always pick a Water attack, since Zuko is a firebender.
     - Consider _S\_\{Avatar} = {Earth, Fire, Water, Air}_ and _S\_\{Zuko} = {Fire}_
     - Since Zuko can only attack with Fire... `utility(Water, Fire) = 1`, which is the largest utility for all other actions of Avatar Aang
     - Aang will always pick water to defeat Zuko
-  - We can represent this as a tuple `(0, 0, 1, 0)`, representing the probability that Aang selects each element to attack with.
+  - We can represent this as a tuple `(0, 1, 0, 0)`, representing the probability that Aang selects each element to attack with.
+
 - **Mixed Strategy** is if a player chooses between at least two actions with varying probabilities.
   - In other words, a player _i_ will pick an action _s \in S \_i_ with probability
   - If we model a fight between and Avatar Aang and Zutara (a mixed water/fire bender), the Avatar will either pick Earth or Water.
@@ -84,12 +90,51 @@ In game theory, there are two kinds of strategies:
     - If Zutara attacks with Water... `utility(Earth, Water) = 1`
     - If Zutara attacks with Fire... `utility(Water, Fire) = 1`
     - Aang maximizes his utility by attacking with either Earth or Water
-  - We can represent this as a tuple `(0.5, 0, 0.5, 0)`, representing the probability that Aang selects each element to attack with.
+  - We can represent this as a tuple `(0.5, 0.5, 0, 0)`, representing the probability that Aang selects each element to attack with.
+
+### Notation
+
+When talking about strategies, I will use the symbol **σ**.
+
+- **Tuple Notation** is something I will be using as shorthand for certain strategies.
+
+  - For example, for a pure strategy against Zuko, Aang can employ the strategy `σ = (0,1,0,0)`
+  - The index of the tuple represents the action chosen, namely `(Earth, Water, Fire, Air)`
+  - As such the above tuple, as described in the **pure strategy** section, represents that Aang chooses `Water` with probability 1, and the other elements with probability 0.
+
+- **Function Definition** is a more formal version of how one might describe strategies, especially when actions get too long to list.
+  - For example _σ_i(s)_ is the probability player _i_ selects action _s_.
+  - Similar to our utility function, this is what a certain strategy might look like as an `SML` function.
+  - This function represents the strategy Aang uses against Zutara in the **mixed strategy** explanation.
+
+```sml
+datatype action = Earth | Water | Fire | Air
+
+fun mixedStrategyZutara(Earth  : action) : real = 0.5
+  | mixedStrategyZutara(Water  : action) : real = 0.5
+  | mixedStrategyZutara(Fire   : action) : real = 0.0
+  | mixedStrategyZutara(Air    : action) : real = 0.0
+```
 
 With these strategies in mind, we have a few different ways to reason about their effectiveness.
 
-- **Expected Utility**
-- **Best Response**
+- **Expected Utility** tells us what the utility is expected to be given the strategies of each player.
+
+  - This is analogous to Expected Value in probability
+  - For a given action profile, multiply the probability each player does their respective action with our utility from this action profile. We then want to sum this quantity across all action profiles.
+  - Remember the types: `utility : actionProfile -> int` and `strategy : action -> real` where `actionProfile = action * action`.
+  - For two player games, summing across all possible action profiles is the same as a double summation across either player's possible actions.
+  - Formally, `ExpectedUtility(σ_A,σ_B) = Σ_{a = A's actions} Σ_{b = B's actions} σ_A(a) * σ_B(b) * u_A(a,b)`
+  - Don't worry if the syntax is weird or if there are a lot of symbols. If you are comfortable with the core idea of expected utility, you are more than good to go!
+
+- **Best Response** is a strategy for a certain player that maximizes their **expected utility** given all other player's strategies.
+
+  - In the fight between Aang and Zuko (firebender from pure strategy example), to find the best response of Aang, we want to maximize his expected utility given all of Zuko's possible strategies.
+  - Aang has a pure strategy of `σ = (0,1,0,0)` in this fight. This is also his best response, because relative to all of Zuko's possible strategies (which is just fire), we get the highest expected utility!
+  - If Aang picks a strategy of `σ = (0,0,0,1)` in this fight, (always pick Air), he will always lose and have a negative expected utility. This is **NOT** a best response. However, it is still a valid response.
+
+  > A core assumption in Game Theory is that all players are rational, meaning they will always pick the best option. So in this scenario, Aang would never pick Air when fighting against Zuko since he is rational. However, this isn't always the case as there could be scenarios where Aang doesn't act rationally (for example attacking the Fire Nation during Sozin's comet), or in this strategy when he uses Air against Fire. This demonstrates that in some scenarios, Game Theory falls short of our expectations.
+
 - **Nash Equilibrium**
 
 It's important to understand the above ideas about game theory, as well as their formal mathematical definitions before we move on to explore a particular way to reason about games: **Regret Minimization**.
