@@ -62,8 +62,8 @@ Writing out every action profile and mapping it to a certain utility gets redund
 |           | Earth  | Water  | Fire   | Air    |
 | --------- | ------ | ------ | ------ | ------ |
 | **Earth** | (0,0)  | (1,-1) | (0,0)  | (-1,1) |
-| **Fire**  | (0,0)  | (-1,1) | (0,0)  | (1,-1) |
 | **Water** | (-1,1) | (0,0)  | (1,-1) | (0,0)  |
+| **Fire**  | (0,0)  | (-1,1) | (0,0)  | (1,-1) |
 | **Air**   | (1,-1) | (0,0)  | (-1,1) | (0,0)  |
 
 > So if the above table represents our normal-form game, we might say that the row's represent Aang's choices, and the column's Bang's choices. For example, if Aang uses an Air attack and Bang uses and Earth attack, we go to the Air row and Earth column. In other words, at (Air, Earth), we see that our utility is the tuple (1,-1). Meaning Aang has a positive utility and Bang has a negative utility. This follows with our intuition since (according to our elemental hierarchy), Air beats Earth!
