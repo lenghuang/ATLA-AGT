@@ -114,7 +114,7 @@ In game theory, there are two kinds of strategies:
 
 - **Pure Strategy** is if a player always chooses a single action.
 
-  - In other words, a player _i_ will pick an action _s \in S \_i_ with probability
+  - In other words, a player _i_ will pick an action _s ∈ S \_i_ with probability
   - If we model a fight between and Avatar Aang and Zuko, the Avatar will always pick a
     Water attack, since Zuko is a firebender.
     - Consider _S\_\{Avatar} = {Earth, Fire, Water, Air}_ and _S\_\{Zuko} = {Fire}_
@@ -126,7 +126,7 @@ In game theory, there are two kinds of strategies:
 
 - **Mixed Strategy** is if a player chooses between at least two actions with varying
   probabilities.
-  - In other words, a player _i_ will pick an action _s \in S \_i_ with probability
+  - In other words, a player _i_ will pick an action _s ∈ S \_i_ with probability
   - If we model a fight between and Avatar Aang and Zutara (a mixed water/fire bender),
     the Avatar will either pick Earth or Water.
     - Consider _S\_\{Avatar} = {Earth, Fire, Water, Air}_ and _S\_\{Zutara} = {Water, Fire}_
@@ -166,44 +166,67 @@ fun mixedStrategyZutara(Earth  : action) : real = 0.5
 
 With these strategies in mind, we have a few different ways to reason about their effectiveness.
 
-- **Expected Utility** tells us what the utility is expected to be given the strategies of each player.
+- **Expected Utility** tells us what the utility is expected to be given the
+  strategies of each player.
 
   - This is analogous to Expected Value in probability
-  - For a given action profile, multiply the probability each player does their respective action
-    with our utility from this action profile. We then want to sum this quantity across all action profiles.
-  - Remember the types: `utility : actionProfile -> int` and `strategy : action -> real` where
-    `actionProfile = action * action`.
-  - For two player games, summing across all possible action profiles is the same as a double
-    summation across either player's possible actions.
-  - Formally, `ExpectedUtility(σ_A,σ_B) = Σ_{a = A's actions} Σ_{b = B's actions} (σ_A(a) * σ_B(b) * u_A(a,b))`
+  - For a given action profile, multiply the probability each player does
+    their respective action with our utility from this action profile. We
+    then want to sum this quantity across all action profiles.
+  - Remember the types: `utility : actionProfile -> int` and
+    `strategy : action -> real` where `actionProfile = action * action`.
+  - For two player games, summing across all possible action profiles is
+    the same as a double summation across either player's possible actions.
+  - Formally,
+    `ExpectedUtility(σ_A,σ_B) = Σ_{a = A's actions} Σ_{b = B's actions}`
+    `(σ_A(a) * σ_B(b) * u_A(a,b))`
   - Don't worry if the syntax is weird or if there are a lot of symbols.
-    If you are comfortable with the core idea of expected utility, you are more than good to go!
+    If you are comfortable with the core idea of expected utility, you are
+    more than good to go!
 
-- **Best Response** is a strategy for a certain player that maximizes
-  their **expected utility** given all other player's strategies.
+- **Best Response** is a strategy for a certain player that maximizes their
+  **expected utility** given all other player's strategies.
 
-  - In the fight between Aang and Zuko (fire bender from pure strategy example), to
-    find the best response of Aang, we want to maximize his expected utility given
-    all of Zuko's possible strategies.
-  - Aang has a pure strategy of `σ = (0,1,0,0)` in this fight. This is also his best
-    response, because relative to all of Zuko's possible strategies (which is just fire),
-    we get the highest expected utility!
+  - In the fight between Aang and Zuko (fire bender from pure strategy example),
+    to find the best response of Aang, we want to maximize his expected utility
+    given all of Zuko's possible strategies.
+  - Aang has a pure strategy of `σ = (0,1,0,0)` in this fight. This is also his
+    best response, because relative to all of Zuko's possible strategies (which
+    is just fire), we get the highest expected utility!
   - If Aang picks a strategy of `σ = (0,0,0,1)` in this fight, (always pick Air),
-    he will always lose and have a negative expected utility. This is **NOT** a best response.
-    However, it is still a valid response.
+    he will always lose and have a negative expected utility. This is **NOT** a
+    best response. However, it is still a valid response.
 
-  > A core assumption in Game Theory is that all players are rational, meaning they will
-  > always pick the best option. So in this scenario, Aang would never pick Air when fighting
-  > against Zuko since he is rational. However, this isn't always the case as there could be
-  > scenarios where Aang doesn't act rationally (for example attacking the Fire Nation during
-  > Sozin's comet), or in this strategy when he uses Air against Fire. This demonstrates that
+  > A core assumption in Game Theory is that all players are rational, meaning
+  > they will always pick the best option. So in this scenario, Aang would
+  > never pick Air when fighting against Zuko since he is rational. However,
+  > this isn't always the case as there could be scenarios where Aang doesn't
+  > act rationally (for example attacking the Fire Nation during Sozin's comet),
+  > or in this strategy when he uses Air against Fire. This demonstrates that
   > in some scenarios, Game Theory falls short of our expectations.
 
-- **Nash Equilibrium**
+- **Nash Equilibrium** is a scenario where each player's strategy is a best
+  response to strategies of others.
+
+  - No players have any incentive to change their current strategy.
+  - More formally, a Nash Eq is a vector or tuple of strategies
+    `eq = (σ_1, σ_2, ..., σ_n)` such that `∀ i ∈ N, ∀ σ ∈ S (u(eq) >= u(σ))`
+  - In other words, for all players, for all other combinations of strategies,
+    `eq` is the strategy that yields the highest utility.
+
+Let's look at a simplified version of the fight between Aang and Bang to understand these strategies a bit better.
+
+> Perhaps a 2 x 2 table
+> | | Water | Fire |
+> | --------- | ------ | ------ |
+> | **Water** | (0,0) | (1,-1) |
+> | **Fire** | (-1,1) | (0,0) |
 
 It's important to understand the above ideas about game theory, as well as their
 formal mathematical definitions before we move on to explore a particular way to
 reason about games: **Regret Minimization**.
+
+## Regret Minimization
 
 ## Code a website where you can test the algorithm on different inputs
 
