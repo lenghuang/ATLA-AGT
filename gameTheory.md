@@ -1,6 +1,6 @@
 # Regret Minimization and Avatar the Last Airbender
 
-## Aang vs Baang
+# Aang vs Baang
 
 Earth, Fire, Water, Air. Long ago, the four nations lived in peace and harmony.
 Thanks to the Avatar Aang, the master of all four elements, conflicts were
@@ -17,7 +17,7 @@ fight between Aang and Bang.
 How might we model this fight? Let's use game theory to model this fight as a
 **two-player zero sum game**.
 
-## Game Theory
+# Game Theory
 
 Game theory studies situations that involves decision making amongst multiples
 rational parties or people. Suppose the the fight between Aang and Bang is
@@ -29,7 +29,7 @@ Before we talk about game theory, let's first define the way in which the four
 elements dominate one another. _There's nothing formal about this, but we'll_
 _just use this intuition to help us define a clear hierarchy._
 
-### Elemental Hierarchy
+## Elemental Hierarchy
 
 <span>
 <img src="./pictures/ed_character.jpeg" alt="drawing" height="300"/>
@@ -48,7 +48,7 @@ Theory. If you are comfortable, feel free to skip the nested bullet points and
 just read the main ones. The nested bullet points serve to provide more in depth
 explanations, examples, and metaphors to help with understanding.
 
-### Definitions
+# Definitions
 
 We will be referring to the following definitions and notations when talking about
 a **normal-form game (N, A, u)**.
@@ -74,14 +74,30 @@ a **normal-form game (N, A, u)**.
   datatype action = Earth | Water | Fire | Air
   type actionProfile = action * action
 
-  fun utility ((Water, Fire)  : actionProfile) : int = 1
-    | utility ((Fire,  Water) : actionProfile) : int = ~1
-    | utility ((Water, Water) : actionProfile) : int = 0
-    | utility ((Fire,  Fire)  : actionProfile) : int = 0
+  fun utilityAang ((Water, Fire)  : actionProfile) : int = 1
+    | utilityAang ((Fire,  Water) : actionProfile) : int = ~1
+    | utilityAang ((Water, Water) : actionProfile) : int = 0
+    | utilityAang ((Fire,  Fire)  : actionProfile) : int = 0
     | ...
     | ...
     | ...
-    | utility ((Air,   Earth) : actionProfile) : int = 1
+    | utilityAang ((Air,   Earth) : actionProfile) : int = 1
+
+```
+
+We can also define a utility function more generally, to show what both players
+of a game experience. The return type is `int * int`, or in other words
+`AangUtility * BangUtility`. Note that for games with `N` players, we would have `N` length tuples. For example:
+
+```sml
+  fun utility ((Water, Fire)  : actionProfile) : int * int = (1, ~1)
+    | utility ((Fire,  Water) : actionProfile) : int * int = (~1, 1)
+    | utility ((Water, Water) : actionProfile) : int * int = (0 , 0)
+    | utility ((Fire,  Fire)  : actionProfile) : int * int = (0 , 0)
+    | ...
+    | ...
+    | ...
+    | utility ((Air,   Earth) : actionProfile) : int * int = (1, ~1)
 
 ```
 
@@ -104,7 +120,7 @@ can get more complicated with larger action profiles and more players.
 > Meaning Aang has a positive utility and Bang has a negative utility. This follows with
 > our intuition since (according to our elemental hierarchy), Air beats Earth!
 
-### Pure vs Mixed Strategies
+# Pure vs Mixed Strategies
 
 Now that we've set the stage for talking about the final battle between Aang and Bang
 within the context of Game Theory, as well as it's accompanying mathematical definitions,
@@ -118,7 +134,7 @@ In game theory, there are two kinds of strategies:
   - If we model a fight between and Avatar Aang and Zuko, the Avatar will always pick a
     Water attack, since Zuko is a firebender.
     - Consider _S\_\{Avatar} = {Earth, Fire, Water, Air}_ and _S\_\{Zuko} = {Fire}_
-    - Since Zuko can only attack with Fire... `utility(Water, Fire) = 1`, which is the
+    - Since Zuko can only attack with Fire... `utilityAang(Water, Fire) = 1`, which is the
       largest utility for all other actions of Avatar Aang
     - Aang will always pick water to defeat Zuko
   - We can represent this as a tuple `(0, 1, 0, 0)`, representing the probability that
@@ -130,13 +146,13 @@ In game theory, there are two kinds of strategies:
   - If we model a fight between and Avatar Aang and Zutara (a mixed water/fire bender),
     the Avatar will either pick Earth or Water.
     - Consider _S\_\{Avatar} = {Earth, Fire, Water, Air}_ and _S\_\{Zutara} = {Water, Fire}_
-    - If Zutara attacks with Water... `utility(Earth, Water) = 1`
-    - If Zutara attacks with Fire... `utility(Water, Fire) = 1`
+    - If Zutara attacks with Water... `utilityAang(Earth, Water) = 1`
+    - If Zutara attacks with Fire... `utilityAang(Water, Fire) = 1`
     - Aang maximizes his utility by attacking with either Earth or Water
   - We can represent this as a tuple `(0.5, 0.5, 0, 0)`, representing the probability that
     Aang selects each element to attack with.
 
-### Notation
+# Notation
 
 When talking about strategies, I will use the symbol **σ**.
 
@@ -225,9 +241,3 @@ Let's look at a simplified version of the fight between Aang and Bang to underst
 It's important to understand the above ideas about game theory, as well as their
 formal mathematical definitions before we move on to explore a particular way to
 reason about games: **Regret Minimization**.
-
-## Regret Minimization
-
-## Code a website where you can test the algorithm on different inputs
-
-## Case on form of elemental dominance, generalize to that
