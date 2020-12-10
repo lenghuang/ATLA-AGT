@@ -3,15 +3,11 @@ from random import random
 
 class RPSTrainer:
     def __init__(self):
-        # self.Earth = 0
-        # self.Water = 1
-        # self.Fire = 2
-        # self.Air = 3
-        self.NUM_ACTIONS = 4
+        self.NUM_ACTIONS = 3
         self.regretSum = [0.0] * self.NUM_ACTIONS
         self.strategy = [0.0] * self.NUM_ACTIONS
         self.strategySum = [0.0] * self.NUM_ACTIONS
-        self.oppStrategy = [0.5, 0.25, 0.1, 0.15]
+        self.oppStrategy = [0.5, 0.2, 0.3]
 
     """
     REQUIRES: True
@@ -52,20 +48,6 @@ class RPSTrainer:
         return a
 
     """
-    REQUIRES: Takes in an action profile, A is player A's action, same for B
-    ENSURES:  Returns the utility for you (first index of tuple)
-              Elements are lined up sequentially, so if we have (Water, Fire)
-              we do Fire - Water = 2 - 1 = 1, which is the utility of A.
-              Opposite for B and then everything else is 0.
-    """
-
-    def utility(self, A, B):
-        if abs(B - A) == 1:
-            return B - A
-        else:
-            return 0
-
-    """
     REQUIRES: iterations the int number of times u wanna run this
     ENSURES:  void, updates the things accordingly ??
     """
@@ -82,8 +64,15 @@ class RPSTrainer:
             otherAction = self.getAction(self.oppStrategy)
 
             # 2) Compute action utilities
-            for a in range(self.NUM_ACTIONS):
-                actionUtility[a] = self.utility(a, otherAction)
+            # This is some big brain stuff with modding.
+            # May hardcode this later for elements
+            actionUtility[otherAction] = 0
+            actionUtility[
+                0 if otherAction == self.NUM_ACTIONS - 1 else otherAction + 1
+            ] = 1
+            actionUtility[
+                self.NUM_ACTIONS - 1 if otherAction == 0 else otherAction - 1
+            ] = -1
 
             # 3) Accumulate action regrets
             for a in range(self.NUM_ACTIONS):
@@ -114,7 +103,7 @@ class RPSTrainer:
         return avgStrategy
 
     def main(self):
-        self.train(10)
+        self.train(10000)
         # print("Iterations Averaged Out")
         print(self.getAverageStrategy())
 
