@@ -1,7 +1,9 @@
+import React from "react"
 import { BrowserRouter, Switch, NavLink, Route } from "react-router-dom"
 import whitelotus from "./pictures/whitelotus.jpg"
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
+import Home from './components/home'
 import './App.css';
 
 function App() {
@@ -10,7 +12,7 @@ function App() {
       <div className="App">
       <Navbar bg="light">
         <Nav className="mr-auto">
-        <NavLink to="/">
+        <NavLink to="/home">
           <Navbar.Brand>
             <img
               alt=""
@@ -31,7 +33,14 @@ function App() {
             <Nav.Link href="/about">About</Nav.Link>
           </Nav>
         </Navbar>
-        <Switch></Switch>
+        <Switch>
+          <Route exact path="/home" component={Home}/>
+          <Route exact path="/theory" component={Home}/>
+          <Route exact path="/regret" component={Home}/>
+          <Route exact path="/code" component={Home}/>
+          <Route exact path="/about" component={Home}/>
+          <Route component={Home} />
+        </Switch>
       </div>
     </BrowserRouter>
   );
