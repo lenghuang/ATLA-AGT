@@ -24,12 +24,12 @@ const RenderTable = ({table}) => {
                         </tr>
                     </thead>
                     <tbody>
-                    {table.map((row, i) =>
-                        <tr key={i}>
-                            {[<td key={"BodyFirst" + i}><b>A action {i + 1}</b></td>].concat(
-                                row.map((e,j) => <td key={"BodyRow" + i + "Col" + j}>{String(e)}</td>)
-                            )}
-                        </tr>
+                        {table.map((row, i) =>
+                            <tr key={i}>
+                                {[<td key={"BodyFirst" + i}><b>A action {i + 1}</b></td>].concat(
+                                    row.map((e,j) => <td key={"BodyRow" + i + "Col" + j}>{String(e)}</td>)
+                                )}
+                            </tr>
                         )}
                     </tbody>
                 </Table>

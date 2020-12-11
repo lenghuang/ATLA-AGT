@@ -156,22 +156,6 @@ class RegretTrainer:
         print(B)
         return A, B
 
-
-if __name__ == "__main__":
-
-    print("\nRock Paper Scissors")
-    rps = RegretTrainer(Game([[[0, 0], [-1, 1], [1, -1]],
-                              [[1, -1], [0, 0], [-1, 1]],
-                              [[-1, 1], [1, -1], [0, 0]]]), 10000)
-    rps.main()
-
-    print("\nAang vs Bang")
-    atla = RegretTrainer(Game([[[0, 0], [1, -1], [0, 0], [-1, 1]],
-                               [[-1, 1], [0, 0], [1, -1], [0, 0]],
-                               [[0, 0], [-1, 1], [0, 0], [1, -1]],
-                               [[1, -1], [0, 0], [-1, 1], [0, 0]]]), 10000)
-    atla.main()
-
 ~~~
 
 `

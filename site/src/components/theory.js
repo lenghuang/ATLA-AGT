@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button'
 import edChars from "../pictures/ed_character.jpeg"
 import edNames from "../pictures/ed_names.jpeg"
 import bang from "../pictures/bang.jpg"
+import Table from 'react-bootstrap/Table'
 
 const Title = () => {
     return (
@@ -95,13 +96,13 @@ a **normal-form game (N, A, u)**.
     type actionProfile = action * action
 
     fun utilityAang ((Water, Fire)  : actionProfile) : int = 1
-        | utilityAang ((Fire,  Water) : actionProfile) : int = ~1
-        | utilityAang ((Water, Water) : actionProfile) : int = 0
-        | utilityAang ((Fire,  Fire)  : actionProfile) : int = 0
-        | ...
-        | ...
-        | ...
-        | utilityAang ((Air,   Earth) : actionProfile) : int = 1
+      | utilityAang ((Fire,  Water) : actionProfile) : int = ~1
+      | utilityAang ((Water, Water) : actionProfile) : int = 0
+      | utilityAang ((Fire,  Fire)  : actionProfile) : int = 0
+      | ...
+      | ...
+      | ...
+      | utilityAang ((Air,   Earth) : actionProfile) : int = 1
     ~~~
 
   - We can also define a utility function more generally, to show what both players
@@ -110,27 +111,46 @@ a **normal-form game (N, A, u)**.
 
     ~~~sml
     fun utility ((Water, Fire)  : actionProfile) : int * int = (1, ~1)
-        | utility ((Fire,  Water) : actionProfile) : int * int = (~1, 1)
-        | utility ((Water, Water) : actionProfile) : int * int = (0 , 0)
-        | utility ((Fire,  Fire)  : actionProfile) : int * int = (0 , 0)
-        | ...
-        | ...
-        | ...
-        | utility ((Air,   Earth) : actionProfile) : int * int = (1, ~1)
+      | utility ((Fire,  Water) : actionProfile) : int * int = (~1, 1)
+      | utility ((Water, Water) : actionProfile) : int * int = (0 , 0)
+      | utility ((Fire,  Fire)  : actionProfile) : int * int = (0 , 0)
+      | ...
+      | ...
+      | ...
+      | utility ((Air,   Earth) : actionProfile) : int * int = (1, ~1)
     ~~~
 
 Writing out every action profile and mapping it to a certain utility gets redundant,
 so a common representation of a utility function, as well as just normal-form games
 is a table. This is usually for two player games with smaller action profiles, as it
 can get more complicated with larger action profiles and more players.
+`
 
-|           | Earth  | Water  | Fire   | Air    |
-| --------- | ------ | ------ | ------ | ------ |
-| **Earth** | (0,0)  | (1,-1) | (0,0)  | (-1,1) |
-| **Water** | (-1,1) | (0,0)  | (1,-1) | (0,0)  |
-| **Fire**  | (0,0)  | (-1,1) | (0,0)  | (1,-1) |
-| **Air**   | (1,-1) | (0,0)  | (-1,1) | (0,0)  |
+const table = () => {
+  const labels = ["Earth", "Water", "Fire", "Air"]
+  const table = [[[0, 0],[1,-1],[0,0],[-1,1]],[[-1,1],[0,0],[1,-1],[0,0]],[[0,0],[-1,1],[0,0],[1,-1]],[[1,-1],[0,0],[-1,1],[0,0]]]
+  return (
+  <Table striped bordered hover responsive>
+    <thead>
+      <tr>
+        <th></th>
+        {labels.map((s,i) => <th key={"header" + i}>{s}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+    {table.map((row, i) =>
+      <tr key={i}>
+        {[<td key={"BodyFirst" + i}><b>{labels[i]}</b></td>].concat(
+          row.map((e,j) => <td key={"BodyRow" + i + "Col" + j}>{String(e)}</td>)
+        )}
+      </tr>
+    )}
+    </tbody>
+  </Table>
+  );
+}
 
+const reflections = `
 > So if the above table represents our normal-form game, we might say that the row's
 > represent Aang's choices, and the column's Bang's choices. For example, if Aang uses
 > an Air attack and Bang uses and Earth attack, we go to the Air row and Earth column.
@@ -197,9 +217,9 @@ When talking about strategies, I will use the symbol **σ**.
     datatype action = Earth | Water | Fire | Air
 
     fun mixedStrategyZutara(Earth  : action) : real = 0.5
-    | mixedStrategyZutara(Water  : action) : real = 0.5
-    | mixedStrategyZutara(Fire   : action) : real = 0.0
-    | mixedStrategyZutara(Air    : action) : real = 0.0
+      | mixedStrategyZutara(Water  : action) : real = 0.5
+      | mixedStrategyZutara(Fire   : action) : real = 0.0
+      | mixedStrategyZutara(Air    : action) : real = 0.0
     ~~~
 `
 
@@ -287,6 +307,10 @@ function Theory() {
         <div className="content">
             <ReactMarkdown plugins={[gfm]} renderers={renderers}>
                 {definitions}
+            </ReactMarkdown>
+            {table()}
+            <ReactMarkdown plugins={[gfm]} renderers={renderers}>
+                {reflections}
             </ReactMarkdown>
         </div>
         <div className="content">
