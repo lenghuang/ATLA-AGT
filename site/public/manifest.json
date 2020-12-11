@@ -1,6 +1,6 @@
 {
   "short_name": "atla-regret",
-  "name": "Avatar Regret Matching",
+  "name": "Regret Minimization and Avatar",
   "icons": [
     {
       "src": "favicon_io/favicon.ico",

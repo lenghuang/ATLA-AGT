@@ -25,7 +25,7 @@ function App() {
               height="30"
               className="d-inline-block align-top"
             />{' '}
-              ATLA: Regret Matching
+              Regret Minimization in Avatar
             </Navbar.Brand>
           </NavLink>
           </Nav>

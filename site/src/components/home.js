@@ -15,8 +15,8 @@ const apiHost = "https://mlforall.pythonanywhere.com"
 const Title = () => {
     return (
         <div className="title">
-            <h1> Regret Matching in Avatar the Last Airbender </h1>
-            <i><h4> Game theory, regret minimization, and two person normal form games </h4></i>
+            <h1> Regret Minimization in Avatar the Last Airbender </h1>
+            <i><h4> Algorithmic game theory, regret matching, and two person normal form games </h4></i>
         </div>);
 }
 
@@ -73,6 +73,9 @@ function Home() {
                 <li>Aang vs Bang: [[[0,0],[1,-1],[0,0],[-1,1]],[[-1,1],[0,0],[1,-1],[0,0]],[[0, 0],[-1, 1],[0, 0],[1,-1]],[[1,-1],[0,0],[-1,1],[0,0]]]</li>
                 <li>Longboi: [[[-8,-8],[0,-10]],[[-10,0],[-1,-1]],[[4,3],[-2,-10]],[[5,7],[3,2]]]</li>
             </ul>
+            <br/>
+            If nothing happens when you click "visualize the learning", contact me at
+            lendevelops at gmail dot com
         </div>
         <div style={{paddingTop: "2rem", paddingBottom: "2rem", textAlign: "center", margin: "auto"}}>
             <Button variant="light" size="lg" onClick={getData}>
