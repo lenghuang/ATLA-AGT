@@ -1,7 +1,8 @@
 import os
+import ast
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from regretEq import RegretTrainer, RPS, ATLA
+from regretEq import RegretTrainer, Game
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -21,24 +22,24 @@ def home():
 
 @app.route("/train", methods=["GET"])
 def train():
-    # Of form: 1,2,3;1,2,3;...
-    matrixEnc = request.args.get('matrix')  # string of a 2D list
-    matrix = []
+    matrixEnc = request.args.get("matrix")  # string of a 2D list
+    iterations = request.args.get("iterations")  # iterations
+    i = 0 if iterations is None else int(iterations)
 
     try:
-        if matrixEnc is None:
-            raise ValueError
-        for r in matrixEnc.split(";"):
-            row = []
-            if len(r) <= 0:
-                raise ValueError
-            for c in r.split(","):
-                row.append(int(c))
-            matrix.append(row)
-    except ValueError:
-        matrix = "Matrix not encoded correctly"
+        matrix = ast.literal_eval(matrixEnc)  # get utility matrix
+        game = Game(matrix)  # initialize the game
+        trainer = RegretTrainer(game, i)  # make the regret trainer
+        A, B = trainer.main()  # train it and get strategies
+    except SyntaxError:
+        matrix = "Ill formed input."
+        A, B = [], []
 
-    return jsonify(matrix)
+    return jsonify({
+        "iterations": i,
+        "strategyA": A,
+        "strategyB": B
+    })
 
 
 # print("\nRock Paper Scissors")

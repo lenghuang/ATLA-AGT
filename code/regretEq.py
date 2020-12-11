@@ -24,8 +24,9 @@ class Player:
 
 # Regret trainer class
 class RegretTrainer:
-    def __init__(self, game):
+    def __init__(self, game, iterations):
         self.utility = game.utility
+        self.iterations = iterations
         self.A = Player(game.actionsA)
         self.B = Player(game.actionsB)
 
@@ -128,11 +129,14 @@ class RegretTrainer:
         return avgStrategy
 
     def main(self):
-        self.train(100000)  # Trains both A and B
+        self.train(self.iterations)  # Trains both A and B
+        A = self.getAverageStrategy(self.A)
+        B = self.getAverageStrategy(self.B)
         print("A's strategy:")
-        print(self.getAverageStrategy(self.A))
+        print(A)
         print("B's strategy:")
-        print(self.getAverageStrategy(self.B))
+        print(B)
+        return A, B
 
 
 if __name__ == "__main__":
@@ -140,12 +144,12 @@ if __name__ == "__main__":
     print("\nRock Paper Scissors")
     rps = RegretTrainer(Game([[[0, 0], [-1, 1], [1, -1]],
                               [[1, -1], [0, 0], [-1, 1]],
-                              [[-1, 1], [1, -1], [0, 0]]]))
+                              [[-1, 1], [1, -1], [0, 0]]]), 10000)
     rps.main()
 
     print("\nAang vs Bang")
     atla = RegretTrainer(Game([[[0, 0], [1, -1], [0, 0], [-1, 1]],
                                [[-1, 1], [0, 0], [1, -1], [0, 0]],
                                [[0, 0], [-1, 1], [0, 0], [1, -1]],
-                               [[1, -1], [0, 0], [-1, 1], [0, 0]]]))
+                               [[1, -1], [0, 0], [-1, 1], [0, 0]]]), 10000)
     atla.main()
