@@ -9,7 +9,20 @@ const Title = () => {
         </div>);
 }
 
+// Takes in a 2D array and renders its elements
+const RenderTable = ({table}) => {
+    var matrix = []
+    for(var i = 0; i < table.length; i++){
+        matrix.push([String(i)].concat(table[i].map(x => String(x))))
+    }
+    console.log(matrix)
+    return (
+        <span>lol</span>
+    )
+}
+
 function Home() {
+    const RPS = [[[0, 0], [-1, 1], [1, -1]], [[1, -1], [0, 0], [-1, 1]], [[-1, 1], [1, -1], [0, 0]]]
   return (
     <div className="central-card">
         {Title()}
@@ -19,6 +32,9 @@ function Home() {
             works by exploring the notion of <Link to="/regret">regret</Link>. Finally, feel
             free to explore the <Link to="/code">code</Link> for this implementation and learn
             more what this project was for in the <Link to="/about">about</Link> section.
+        </div>
+        <div className="content">
+            <RenderTable table={RPS} />
         </div>
     </div>
   );

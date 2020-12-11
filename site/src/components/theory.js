@@ -302,7 +302,7 @@ function Theory() {
         </div>
         <div style={{paddingTop: "2rem", textAlign: "center", margin: "auto"}}>
             <Button variant="light" size="lg" href="/regret">
-                Click here to read up on Regret
+                Read up on Regret
             </Button>{' '}
         </div>
         <div className="empty"></div>

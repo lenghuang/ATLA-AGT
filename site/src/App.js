@@ -1,6 +1,5 @@
 import React from "react"
 import { BrowserRouter, Switch, NavLink, Route } from "react-router-dom"
-import ProgressBar from "react-scroll-progress-bar";
 import whitelotus from "./pictures/whitelotus.jpg"
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
@@ -13,7 +12,6 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-      <ProgressBar />
       <Navbar bg="light">
         <Nav className="mr-auto">
         <NavLink to="/home">
@@ -45,6 +43,11 @@ function App() {
           <Route exact path="/about" component={Home}/>
           <Route component={Home} />
         </Switch>
+      </div>
+      <div className="footer">
+        <a href="https://github.com/lenghuang/ATLA-AGT">
+          Len Huang &#169; 2020
+        </a>
       </div>
     </BrowserRouter>
   );

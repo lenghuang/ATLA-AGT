@@ -196,6 +196,11 @@ function Code() {
                 {regretEq}
             </ReactMarkdown>
         </div>
+        <div style={{paddingTop: "2rem", textAlign: "center", margin: "auto"}}>
+            <Button variant="light" size="lg" href="/home">
+                Test this code out!
+            </Button>{' '}
+        </div>
         <div className="empty"></div>
     </div>
   );
