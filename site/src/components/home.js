@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
+import Table from 'react-bootstrap/Table'
 
 const Title = () => {
     return (
@@ -12,18 +13,44 @@ const Title = () => {
 // Takes in a 2D array and renders its elements
 const RenderTable = ({table}) => {
     var matrix = []
-    for(var i = 0; i < table.length; i++){
-        matrix.push([String(i)].concat(table[i].map(x => String(x))))
+    if(table.length === 0){
+        return (
+            <div> Ill-formed Table</div>
+        )
+    } else {
+        var first = []
+        for(var i = 0; i < table[0].length; i++) {
+            first.push("B action " + String(i + 1))
+        }
+        return (
+            <Table striped bordered hover responsive>
+                <thead>
+                    <tr>
+                        {[<th key={"HeaderFirst"}></th>].concat(
+                            first.map((s,i) => <th key={"Header" + i}>{s}</th>)
+                        )}
+                    </tr>
+                </thead>
+                <tbody>
+                {table.map((row, i) =>
+                    <tr key={i}>
+                        {[<td key={"BodyFirst" + i}><b>A action {i}</b></td>].concat(
+                            row.map((e,j) => <td key={"BodyRow" + i + "Col" + j}>{String(e)}</td>)
+                        )}
+                    </tr>
+                    )}
+                </tbody>
+            </Table>
+        )
     }
-    console.log(matrix)
-    return (
-        <span>lol</span>
-    )
 }
 
 function Home() {
+
     const RPS = [[[0, 0], [-1, 1], [1, -1]], [[1, -1], [0, 0], [-1, 1]], [[-1, 1], [1, -1], [0, 0]]]
-  return (
+    const ATLA = [[[0, 0], [1, -1], [0, 0], [-1, 1]], [[-1, 1], [0, 0], [1, -1], [0, 0]], [[0, 0], [-1, 1], [0, 0], [1, -1]], [[1, -1], [0, 0], [-1, 1], [0, 0]]]
+    const [table, setTable] = useState(ATLA)
+    return (
     <div className="central-card">
         {Title()}
         <div className="content">
@@ -34,7 +61,7 @@ function Home() {
             more what this project was for in the <Link to="/about">about</Link> section.
         </div>
         <div className="content">
-            <RenderTable table={RPS} />
+            <RenderTable table={table} />
         </div>
     </div>
   );
