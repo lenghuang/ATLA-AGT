@@ -72,16 +72,20 @@ const LineGraph = ({data, dummy}) => {
     }
     return (
         <>
-        <div style={{textAlign: "center"}}>
+        <div className="content" style={{textAlign: "center"}}>
             <h3>Player A's Strategy:</h3>
             <p>{a}</p>
+            <div style={{paddingLeft: "7rem", paddingRight: "7rem"}}>
+                <Line data={playerA} />
+            </div>
         </div>
-        <Line data={playerA} />
-        <div style={{paddingTop: "2rem", textAlign: "center"}}>
+        <div className="content" style={{paddingTop: "2rem", textAlign: "center"}}>
           <h3>Player B's Strategy:</h3>
           <p>{b}</p>
+          <div style={{paddingLeft: "7rem", paddingRight: "7rem"}}>
+            <Line data={playerB} />
+          </div>
         </div>
-        <Line data={playerB} />
       </>
     )
 
