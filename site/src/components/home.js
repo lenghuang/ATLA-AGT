@@ -7,7 +7,7 @@ import RenderTable from "./renderTable"
 import LineGraph from "./linegraph"
 
 
-const apiHost = "http://mlforall.pythonanywhere.com"
+const apiHost = "https://mlforall.pythonanywhere.com"
 // const apiHost = "http://127.0.0.1:8080"
 
 const Title = () => {
