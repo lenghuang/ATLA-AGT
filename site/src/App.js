@@ -5,7 +5,9 @@ import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Home from './components/home'
 import Theory from './components/theory'
+import Regret from './components/regret'
 import Code from './components/code'
+import About from './components/about'
 import './App.css';
 
 function App() {
@@ -38,9 +40,9 @@ function App() {
         <Switch>
           <Route exact path="/home" component={Home}/>
           <Route exact path="/theory" component={Theory}/>
-          <Route exact path="/regret" component={Home}/>
+          <Route exact path="/regret" component={Regret}/>
           <Route exact path="/code" component={Code}/>
-          <Route exact path="/about" component={Home}/>
+          <Route exact path="/about" component={About}/>
           <Route component={Home} />
         </Switch>
       </div>

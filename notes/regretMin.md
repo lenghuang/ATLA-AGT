@@ -40,3 +40,4 @@ val regret = utilityAang(s1,s2) - utilityAang(a)
 ```
 
 - **Regret Matching**
+  - (Work in Progress)

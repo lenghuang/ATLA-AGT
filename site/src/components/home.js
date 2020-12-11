@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button'
 import RenderTable from "./renderTable"
 import LineGraph from "./linegraph"
 import Spinner from 'react-bootstrap/Spinner'
+import gang from "../pictures/gang.jpg"
 
 
 const apiHost = "https://mlforall.pythonanywhere.com"
@@ -46,6 +47,7 @@ function Home() {
     <div className="central-card">
         {Title()}
         <div className="content">
+            <div style={{textAlign: "center"}}><img src={gang} alt="Aang" height={200}/></div>
             If you would like to learn more about what this is, be sure to first read up
             on <Link to="/theory">game theory</Link>. After that, explore how the algorithm
             works by exploring the notion of <Link to="/regret">regret</Link>. Finally, feel

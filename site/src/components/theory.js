@@ -5,6 +5,7 @@ import gfm from 'remark-gfm'
 import Button from 'react-bootstrap/Button'
 import edChars from "../pictures/ed_character.jpeg"
 import edNames from "../pictures/ed_names.jpeg"
+import bang from "../pictures/bang.jpg"
 
 const Title = () => {
     return (
@@ -266,6 +267,9 @@ function Theory() {
     <div className="central-card">
         {Title()}
         <div className="content">
+            <div style={{textAlign: "center", marginLeft: "-11px"}}>
+                <img src={bang} alt="Bang" height="300"/>
+            </div>
             <ReactMarkdown plugins={[gfm]}>
                 {intro}
             </ReactMarkdown>
