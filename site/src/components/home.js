@@ -7,6 +7,9 @@ import RenderTable from "./renderTable"
 import LineGraph from "./linegraph"
 
 
+const apiHost = "http://mlforall.pythonanywhere.com"
+// const apiHost = "http://127.0.0.1:8080"
+
 const Title = () => {
     return (
         <div className="title">
@@ -22,7 +25,7 @@ function Home() {
     const [data, setData] = useState(null)
 
     const getData = () => {
-        axios.get("http://127.0.0.1:8080/train?matrix=" + table)
+        axios.get(apiHost + "/train?matrix=" + table)
         .then((response) => {
             setData(response.data)
         });
