@@ -6,7 +6,7 @@ from regretEq import RegretTrainer, Game
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "example.com"}})
 
 
 @app.route("/", methods=["GET"])
@@ -50,3 +50,9 @@ def train():
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=int(os.environ.get("PORT", 8080)))
+
+# Battle of Genders
+# http://127.0.0.1:8080/train?matrix=[[[2,1],[0,0]],[[0,0],[1,2]]]&iterations=10000
+
+# Avatar
+# http://127.0.0.1:8080/train?matrix=[[[0, 0],[1,-1],[0,0],[-1,1]],[[-1,1],[0,0],[1,-1],[0,0]],[[0,0],[-1,1],[0,0],[1,-1]],[[1,-1],[0,0],[-1,1],[0,0]]]&iterations=10000
