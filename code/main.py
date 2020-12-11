@@ -1,3 +1,5 @@
+# Python Flask API implementing regretApi.py
+
 import os
 import ast
 from flask import Flask, request, jsonify
@@ -49,7 +51,7 @@ def train():
         response.headers.add('Access-Control-Allow-Origin',
                              'http://localhost:3000')
         # response.headers.add('Access-Control-Allow-Origin',
-        #                      'https://atla-agt.web.app/')
+        #                      'https://atla-agt.web.app')
 
     return response
 

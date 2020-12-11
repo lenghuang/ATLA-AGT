@@ -1,3 +1,5 @@
+# Initial regret matching file that requires you to hard code an opponent strategy
+
 from random import random
 
 

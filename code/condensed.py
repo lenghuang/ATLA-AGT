@@ -1,5 +1,7 @@
-# Regret Matching that also returns strategies per 500 iterations
+# Condensed 1 file version hosted on pythonanywhere.com
 
+import ast
+from flask import Flask, request, jsonify
 from random import random
 
 
@@ -142,3 +144,51 @@ class RegretTrainer:
     def main(self):
         self.train(self.iterations)  # Trains both A and B
         return self.A.series, self.getAverageStrategy(self.A), self.B.series, self.getAverageStrategy(self.B)
+
+
+app = Flask(__name__)
+app.config["DEBUG"] = True
+
+
+@app.route("/", methods=["GET"])
+def home():
+    return """
+        <!DOCTYPE html>
+        <body style="width: 880px; margin: auto;">
+        <h1> Regret Matching </h1>
+        <p>Welcome to Len's API for implementing Regret Matching</p>
+        </body>
+            """
+
+
+@app.route("/train", methods=["GET"])
+def train():
+    origin = request.environ.get('HTTP_ORIGIN')
+    if origin is None:
+        response = jsonify({
+            "seriesA": "no",
+            "seriesB": "u"
+        })
+    else:
+        matrixEnc = request.args.get("matrix")  # string of a 2D list
+
+        try:
+            matrix = ast.literal_eval(matrixEnc)  # get utility matrix
+            game = Game(matrix)  # initialize the game
+            trainer = RegretTrainer(game, 50000)  # make the regret trainer
+            # Capital data series, a is most recent
+            A, a, B, b = trainer.main()  # train it and get strategies
+        except SyntaxError:
+            matrix = "Ill formed input."
+            A, a, B, b = [], [], [], []
+
+        response = jsonify({
+            "seriesA": A,
+            "stratA": a,
+            "seriesB": B,
+            "stratB": b
+        })
+        response.headers.add('Access-Control-Allow-Origin',
+                             'https://atla-agt.web.app')
+
+    return response
