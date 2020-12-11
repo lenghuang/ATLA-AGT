@@ -41,14 +41,14 @@ const LineGraph = ({data, dummy}) => {
             labels: ['1', '2', '3', '4', '5', '6'],
             datasets: [
               {
-                label: 'Code is Data',
+                label: 'Church',
                 data: [1, 2, 5, -1, 2, 3],
                 fill: false,
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgba(255, 99, 132, 0.2)',
               },
               {
-                label: 'Code is Data',
+                label: 'Turing',
                 data: [-1, 2, 9, -6, 3, 2],
                 fill: false,
                 backgroundColor: 'rgb(100, 90, 132)',
