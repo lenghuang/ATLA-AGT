@@ -5,6 +5,7 @@ import axios from "axios"
 import Button from 'react-bootstrap/Button'
 import RenderTable from "./renderTable"
 import LineGraph from "./linegraph"
+import Spinner from 'react-bootstrap/Spinner'
 
 
 const apiHost = "https://mlforall.pythonanywhere.com"
@@ -23,11 +24,17 @@ function Home() {
     const ATLA = "[[[0,0],[1,-1],[0,0],[-1,1]],[[-1,1],[0,0],[1,-1],[0,0]],[[0, 0],[-1, 1],[0, 0],[1,-1]],[[1,-1],[0,0],[-1,1],[0,0]]]"
     const [table, setTable] = useState(ATLA)
     const [data, setData] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     const getData = () => {
+        setLoading(true)
         axios.get(apiHost + "/train?matrix=" + table)
         .then((response) => {
             setData(response.data)
+            setLoading(false)
+        }).catch((e) => {
+            console.log(e)
+            setLoading(false)
         });
     }
 
@@ -67,7 +74,7 @@ function Home() {
         </div>
         <div style={{paddingTop: "2rem", paddingBottom: "2rem", textAlign: "center", margin: "auto"}}>
             <Button variant="light" size="lg" onClick={getData}>
-                Visualize the Learning!
+                {loading ? <Spinner animation="border" /> : "Visualize the Learning!"}
             </Button>{' '}
         </div>
         {data ? <LineGraph data={data} dummy={false}/> : <LineGraph dummy={true}/>}
