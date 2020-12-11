@@ -1,7 +1,10 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import Form from 'react-bootstrap/Form'
+import axios from "axios"
+import Button from 'react-bootstrap/Button'
 import RenderTable from "./renderTable"
+
 
 const Title = () => {
     return (
@@ -13,9 +16,14 @@ const Title = () => {
 
 function Home() {
 
-    const RPS = "[[[0,0],[-1,1],[1,-1]],[[1,-1],[0,0],[-1,1]],[[-1,1],[1,-1],[0,0]]]";
     const ATLA = "[[[0,0],[1,-1],[0,0],[-1,1]],[[-1,1],[0,0],[1,-1],[0,0]],[[0, 0],[-1, 1],[0, 0],[1,-1]],[[1,-1],[0,0],[-1,1],[0,0]]]"
     const [table, setTable] = useState(ATLA)
+
+    axios.get("http://127.0.0.1:8080/train?matrix=" + table)
+    .then((response) => {
+        console.log(response.data);
+    });
+
 
     const handleChange = (e) => {
         setTable(e.target.value)
@@ -44,13 +52,20 @@ function Home() {
             <br/>
             Some examples of games you can try:
             <ul>
+                <li>Battle of Genders: [[[2,1],[0,0]],[[0,0],[1,2]]]</li>
                 <li>Prisoner's Dilemma: [[[-8,-8],[0,-10]],[[-10,0],[-1,-1]]]</li>
                 <li>Rock Paper Scissors: [[[0,0],[-1,1],[1,-1]],[[1,-1],[0,0],[-1,1]],[[-1,1],[1,-1],[0,0]]]</li>
                 <li>Aang vs Bang: [[[0,0],[1,-1],[0,0],[-1,1]],[[-1,1],[0,0],[1,-1],[0,0]],[[0, 0],[-1, 1],[0, 0],[1,-1]],[[1,-1],[0,0],[-1,1],[0,0]]]</li>
+                <li>Longboi: [[[-8,-8],[0,-10]],[[-10,0],[-1,-1]],[[4,3],[-2,-10]],[[5,7],[3,2]]]</li>
             </ul>
         </div>
         <div className="content">
 
+        </div>
+        <div style={{paddingTop: "2rem", textAlign: "center", margin: "auto"}}>
+            <Button variant="light" size="lg">
+                Visualize the Learning!
+            </Button>{' '}
         </div>
         <div className="empty"></div>
     </div>
