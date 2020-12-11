@@ -70,6 +70,15 @@ function Home() {
         <div className="content">
             {data ? <LineGraph data={data} dummy={false}/> : <LineGraph dummy={true}/>}
         </div>
+        <div className="content">
+            What you're seeing here is the probability a player picks each action over time according to a regret matching algorithm.
+            Want to learn more? Get started by reading up on some <Link to="/theory">game theory</Link>.
+        </div>
+        <div style={{paddingTop: "2rem", textAlign: "center", margin: "auto"}}>
+            <Button variant="light" size="lg" href="/theory">
+                Read up on some game theory
+            </Button>{' '}
+        </div>
         <div className="empty"></div>
     </div>
   );
