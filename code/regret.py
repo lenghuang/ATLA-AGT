@@ -1,46 +1,67 @@
 from random import random
 
 
-class RPSTrainer:
-    def __init__(self):
-        self.NUM_ACTIONS = 3
-        self.regretSum = [0.0] * self.NUM_ACTIONS
-        self.strategy = [0.0] * self.NUM_ACTIONS
-        self.strategySum = [0.0] * self.NUM_ACTIONS
-        self.oppStrategy = [0.5, 0.2, 0.3]
+# General class describing a two player game
+class Game:
+    def __init__(self, utility):
+        self.utility = utility
+        # Number of actions player A has. Have 1 to prevent div 0
+        self.actionsA = 1 if len(utility) == 0 else len(
+            utility)
+        # Number of actions player B has. Have 1 to prevent div 0
+        self.actionsB = 1 if len(utility) == 0 and len(
+            utility[0]) == 0 else len(utility[0])
+
+
+# Generalize players data structures
+class Player:
+    def __init__(self, actions):
+        self.actions = actions
+        self.regretSum = [0.0] * actions
+        self.strategy = [0.0] * actions
+        self.strategySum = [0.0] * actions
+
+
+# Regret trainer class
+class RegretTrainer:
+    def __init__(self, game, iterations):
+        self.utility = game.utility
+        self.iterations = iterations
+        self.A = Player(game.actionsA)
+        self.B = Player(game.actionsB)
 
     """
     REQUIRES: True
-    ENSURES:  Gets a strategy lol?
+    ENSURES:  Gets a strategy
     """
 
-    def getStrategy(self):
+    def getStrategy(self, player):
         normalizingSum = 0
-        for a in range(self.NUM_ACTIONS):
-            self.strategy[a] = self.regretSum[a] if self.regretSum[a] > 0 else 0
-            normalizingSum += self.strategy[a]
-        for a in range(self.NUM_ACTIONS):
+        for a in range(player.actions):
+            player.strategy[a] = player.regretSum[a] if player.regretSum[a] > 0 else 0
+            normalizingSum += player.strategy[a]
+        for a in range(player.actions):
             if normalizingSum > 0:
-                self.strategy[a] /= normalizingSum
+                player.strategy[a] /= normalizingSum
             else:
-                self.strategy[a] = (
-                    1.0 / self.NUM_ACTIONS
+                player.strategy[a] = (
+                    1.0 / player.actions
                 )  # if all nonpositive, make uniform
-            self.strategySum[a] += self.strategy[a]
-        return self.strategy
+            player.strategySum[a] += player.strategy[a]
+        return player.strategy
 
     """
-    REQUIRES: strategy is a float list
+    REQUIRES: player has a strategy prop thats a float list
     ENSURES:  a is a randomly picked action according
               to our mixed strategy distribution
     """
 
-    def getAction(self, strategy):
-        # COME BACK TO THIS ?????
-        r = random()  # we do 1 - since python random gives [0,1)
+    def getAction(self, player):
+        r = 1 - random()  # we do 1 - since python random gives [0,1)
         a = 0
+        strategy = self.getStrategy(player)
         cumulativeProb = 0.0
-        while a < self.NUM_ACTIONS - 1:
+        while a < player.actions - 1:
             cumulativeProb += strategy[a]
             if r < cumulativeProb:
                 break
@@ -48,66 +69,87 @@ class RPSTrainer:
         return a
 
     """
+    REQUIRES: 0 < A < A.actions, 0 < B < B.actions
+    ENSURES:  if me, return A's else return B
+    """
+
+    def getUtility(self, A, B, me):
+        a, b = self.utility[A][B]
+        return a if me else b
+
+    """
     REQUIRES: iterations the int number of times u wanna run this
-    ENSURES:  void, updates the things accordingly ??
+    ENSURES:  void, updates both players, training them on each other
     """
 
     def train(self, iterations):
 
-        actionUtility = [0.0] * self.NUM_ACTIONS
+        actionUtilityA = [0.0] * self.A.actions
+        actionUtilityB = [0.0] * self.B.actions
 
         for _ in range(iterations):
 
             # 1) Get Regret-matched mixed-strategy actions
-            strategy = self.getStrategy()
-            myAction = self.getAction(strategy)
-            otherAction = self.getAction(self.oppStrategy)
+            actionA = self.getAction(self.A)
+            actionB = self.getAction(self.B)
 
             # 2) Compute action utilities
-            # This is some big brain stuff with modding.
-            # May hardcode this later for elements
-            actionUtility[otherAction] = 0
-            actionUtility[
-                0 if otherAction == self.NUM_ACTIONS - 1 else otherAction + 1
-            ] = 1
-            actionUtility[
-                self.NUM_ACTIONS - 1 if otherAction == 0 else otherAction - 1
-            ] = -1
+            for a in range(self.A.actions):
+                actionUtilityA[a] = self.getUtility(a, actionB, True)
+
+            for b in range(self.B.actions):
+                actionUtilityB[b] = self.getUtility(actionA, b, False)
 
             # 3) Accumulate action regrets
-            for a in range(self.NUM_ACTIONS):
-                self.regretSum[a] += actionUtility[a] - actionUtility[myAction]
-
-            # if i % 10000 == 0:
-            #     print("Iteration " + str(i))
-            #     print(strategy)
+            for a in range(self.A.actions):
+                self.A.regretSum[a] += actionUtilityA[a] - \
+                    actionUtilityA[actionA]
+            for b in range(self.B.actions):
+                self.B.regretSum[b] += actionUtilityB[b] - \
+                    actionUtilityB[actionB]
 
     """
     REQUIRES: strategy is trained
     ENSURES:  returns a float list representing average strategy
     """
 
-    def getAverageStrategy(self):
+    def getAverageStrategy(self, player):
 
-        avgStrategy = [0.0] * self.NUM_ACTIONS
+        avgStrategy = [0.0] * player.actions
         normalizingSum = 0
 
-        for a in range(self.NUM_ACTIONS):
-            normalizingSum += self.strategySum[a]
-        for a in range(self.NUM_ACTIONS):
+        for a in range(player.actions):
+            normalizingSum += player.strategySum[a]
+        for a in range(player.actions):
             if normalizingSum > 0:
-                avgStrategy[a] = self.strategySum[a] / normalizingSum
+                avgStrategy[a] = player.strategySum[a] / normalizingSum
             else:
-                avgStrategy[a] = 1.0 / self.NUM_ACTIONS
+                avgStrategy[a] = 1.0 / player.actions
 
         return avgStrategy
 
     def main(self):
-        self.train(10000)
-        # print("Iterations Averaged Out")
-        print(self.getAverageStrategy())
+        self.train(self.iterations)  # Trains both A and B
+        A = self.getAverageStrategy(self.A)
+        B = self.getAverageStrategy(self.B)
+        print("A's strategy:")
+        print(A)
+        print("B's strategy:")
+        print(B)
+        return A, B
 
 
 if __name__ == "__main__":
-    trainer = RPSTrainer()
-    trainer.main()
+
+    print("\nRock Paper Scissors")
+    rps = RegretTrainer(Game([[[0, 0], [-1, 1], [1, -1]],
+                              [[1, -1], [0, 0], [-1, 1]],
+                              [[-1, 1], [1, -1], [0, 0]]]), 10000)
+    rps.main()
+
+    print("\nAang vs Bang")
+    atla = RegretTrainer(Game([[[0, 0], [1, -1], [0, 0], [-1, 1]],
+                               [[-1, 1], [0, 0], [1, -1], [0, 0]],
+                               [[0, 0], [-1, 1], [0, 0], [1, -1]],
+                               [[1, -1], [0, 0], [-1, 1], [0, 0]]]), 10000)
+    atla.main()

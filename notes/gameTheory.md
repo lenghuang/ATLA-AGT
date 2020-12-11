@@ -32,8 +32,8 @@ _just use this intuition to help us define a clear hierarchy._
 ## Elemental Hierarchy
 
 <span>
-<img src="./pictures/ed_character.jpeg" alt="drawing" height="300"/>
-<img src="./pictures/ed_names.jpeg" alt="drawing" height="300"/>
+<img src="../pictures/ed_character.jpeg" alt="drawing" height="300"/>
+<img src="../pictures/ed_names.jpeg" alt="drawing" height="300"/>
 </span>
 
 Similarly to how in RPS, rock beats scissors, scissors beats paper, and paper

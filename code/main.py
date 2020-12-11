@@ -2,7 +2,7 @@ import os
 import ast
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from regretEq import RegretTrainer, Game
+from regret import RegretTrainer, Game
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
