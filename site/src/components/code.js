@@ -189,7 +189,10 @@ function Code() {
             and I built upon that to implement a two player one, where either players are learning
             with (or training against) one another to reach an equilibrium. While the resulting strategy
             may not be exactly the nash equilibrium, one can see that it often converges on some sort of
-            correlated equilibrium.
+            correlated equilibrium. Check out the rest of my code on
+            <a href="https://github.com/lenghuang/ATLA-AGT">
+                Github.
+            </a>
         </div>
         <div className="content">
             <ReactMarkdown plugins={[gfm]} renderers={renderers}>

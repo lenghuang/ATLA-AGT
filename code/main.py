@@ -33,18 +33,24 @@ def train():
         try:
             matrix = ast.literal_eval(matrixEnc)  # get utility matrix
             game = Game(matrix)  # initialize the game
-            trainer = RegretTrainer(game, 10000)  # make the regret trainer
-            A, B = trainer.main()  # train it and get strategies
+            trainer = RegretTrainer(game, 50000)  # make the regret trainer
+            # Capital data series, a is most recent
+            A, a, B, b = trainer.main()  # train it and get strategies
         except SyntaxError:
             matrix = "Ill formed input."
-            A, B = [], []
+            A, a, B, b = [], [], [], []
 
         response = jsonify({
             "seriesA": A,
-            "seriesB": B
+            "stratA": a,
+            "seriesB": B,
+            "stratB": b
         })
         response.headers.add('Access-Control-Allow-Origin',
                              'http://localhost:3000')
+        # response.headers.add('Access-Control-Allow-Origin',
+        #                      'https://atla-agt.web.app/')
+
     return response
 
 

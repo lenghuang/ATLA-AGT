@@ -89,7 +89,7 @@ class RegretTrainer:
         actionUtilityA = [0.0] * self.A.actions
         actionUtilityB = [0.0] * self.B.actions
 
-        for i in range(iterations):
+        for i in range(iterations + 1):
 
             # 1) Get Regret-matched mixed-strategy actions
             actionA = self.getAction(self.A)
@@ -109,19 +109,13 @@ class RegretTrainer:
                 self.B.regretSum[b] += actionUtilityB[b] - \
                     actionUtilityB[actionB]
             # 4) Log information
-            if (i % 250 == 0):
+            if (i % 500 == 0):
                 stratA = self.getAverageStrategy(self.A)
                 for a in range(self.A.actions):
-                    self.A.series[a].append({
-                        "y": stratA[a],
-                        "label": str(i)
-                    })
+                    self.A.series[a].append(stratA[a])
                 stratB = self.getAverageStrategy(self.B)
                 for b in range(self.B.actions):
-                    self.B.series[b].append({
-                        "y": stratB[b],
-                        "label": str(i)
-                    })
+                    self.B.series[b].append(stratB[b])
 
     """
     REQUIRES: strategy is trained
@@ -145,4 +139,4 @@ class RegretTrainer:
 
     def main(self):
         self.train(self.iterations)  # Trains both A and B
-        return self.A.series, self.B.series
+        return self.A.series, self.getAverageStrategy(self.A), self.B.series, self.getAverageStrategy(self.B)

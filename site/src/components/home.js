@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import axios from "axios"
 import Button from 'react-bootstrap/Button'
 import RenderTable from "./renderTable"
+import LineGraph from "./linegraph"
 
 
 const Title = () => {
@@ -18,12 +19,14 @@ function Home() {
 
     const ATLA = "[[[0,0],[1,-1],[0,0],[-1,1]],[[-1,1],[0,0],[1,-1],[0,0]],[[0, 0],[-1, 1],[0, 0],[1,-1]],[[1,-1],[0,0],[-1,1],[0,0]]]"
     const [table, setTable] = useState(ATLA)
+    const [data, setData] = useState(null)
 
-    axios.get("http://127.0.0.1:8080/train?matrix=" + table)
-    .then((response) => {
-        console.log(response.data);
-    });
-
+    const getData = () => {
+        axios.get("http://127.0.0.1:8080/train?matrix=" + table)
+        .then((response) => {
+            setData(response.data)
+        });
+    }
 
     const handleChange = (e) => {
         setTable(e.target.value)
@@ -59,13 +62,13 @@ function Home() {
                 <li>Longboi: [[[-8,-8],[0,-10]],[[-10,0],[-1,-1]],[[4,3],[-2,-10]],[[5,7],[3,2]]]</li>
             </ul>
         </div>
-        <div className="content">
-
-        </div>
-        <div style={{paddingTop: "2rem", textAlign: "center", margin: "auto"}}>
-            <Button variant="light" size="lg">
+        <div style={{paddingTop: "2rem", paddingBottom: "2rem", textAlign: "center", margin: "auto"}}>
+            <Button variant="light" size="lg" onClick={getData}>
                 Visualize the Learning!
             </Button>{' '}
+        </div>
+        <div className="content">
+            {data ? <LineGraph data={data} dummy={false}/> : <LineGraph dummy={true}/>}
         </div>
         <div className="empty"></div>
     </div>
