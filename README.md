@@ -10,6 +10,8 @@ so I chose to explore the topic of algorithmic game theory. More specifically
 Regret Minimization. Combined with the iconic rerelease of Avatar the Last Airbender onto
 Netflix in 2020, I found inspiration to combine the two in this project.
 
+Check out the live site here: https://atla-agt.web.app/home
+
 ### Directory
 
 - `code`: Contains various implementations of regret matching, as well as a `flask` API that is being hosted with `pythonanywhere.com`.
