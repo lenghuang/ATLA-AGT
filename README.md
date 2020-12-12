@@ -1,5 +1,5 @@
 <h1> Regret Minimization in Avatar
-  <img src="./site/src/pictures/aang.png" alt="visualize" height="50"/>
+  <img src="./site/src/pictures/aang.png" alt="visualize" height="75"/>
 </h1>
 
 ### 15-251: Great Theoretical Ideas of Computer Science
