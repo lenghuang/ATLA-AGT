@@ -17,11 +17,15 @@ Netflix in 2020, I found inspiration to combine the two in this project.
 - `pictures`: Some of my drawings to better discuss AGT
 - `site`: React website to put everything together
 
-### Visualize a Regret Minimization Learning Algorithm Converge on a Correlated Equilibrium
+### Visualize the Algorithm Over 50,000 Iterations
+
+Check out how the strategies of the players change after 50,000 iterations of the regret matching learning algorithm.
 
 <img src="./pictures/visualize.gif" alt="visualize" height="350"/>
 
-### Test This Out On Your Own Two-Person Normal Form Games
+### Test This Out On Your Own "Games"
+
+Input your own tables, or two-person normal form games, with their respective utilites to try out the learning algorithm on your own games.
 
 <img src="./pictures/editMatrix.gif" alt="editMatrix" height="350"/>
 
