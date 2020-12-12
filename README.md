@@ -8,20 +8,20 @@ so I chose to explore the topic of algorithmic game theory. More specifically
 Regret Minimization. Combined with the iconic rerelease of Avatar the Last Airbender onto
 Netflix in 2020, I found inspiration to combine the two in this project.
 
-# Directory
+### Directory
 
-- ### `code`
+- `code`: Contains various implementations of regret matching, as well as a `flask` API that is being hosted with `pythonanywhere.com`.
+- `notes`: Contains conceptual information and related notes.
+- `pictures`: Some of my drawings to better discuss AGT
+- `site`: React website to put everything together
 
-  Contains various implemntations of regret matching, as well as a `flask` API that is being hosted with `pythonanywhere.com`.
+### Visualize a Regret Minimization Learning Algorithm Converge on a Correlated Equilibrium
 
-- ### `notes`
-  Contains conceptual information and related notes.
-- ### `pictures`
-  Some of my drawings to better discuss AGT
-- ### `site`
-  React website to put everything together
+<img src="./pictures/visualize.gif" alt="visualize" height="350"/>
 
-## Additional Information
+### Test This Out On Your Own Two-Person Normal Form Games
+
+<img src="./pictures/editMatrix.gif" alt="editMatrix" height="350"/>
 
 ### Sources
 
