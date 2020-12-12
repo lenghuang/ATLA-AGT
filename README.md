@@ -1,4 +1,6 @@
-# Regret Minimization in Avatar
+<h1> Regret Minimization in Avatar
+  <img src="./site/src/pictures/aang.png" alt="visualize" height="50"/>
+</h1>
 
 ### 15-251: Great Theoretical Ideas of Computer Science
 
