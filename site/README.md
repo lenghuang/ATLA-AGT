@@ -1,8 +1,6 @@
-# Demo of Regret Matching
+# Site
 
-- Put gifs of demo here
-
-- Made use of `axios`, `Charts.js`, and `pythonanywhere.com` to create the data visualization, hosted with `Firebase`.
+Directory for my react app. Made use of `axios`, `Charts.js`, and `pythonanywhere.com` to create the data visualization, hosted with `Firebase`.
 
 ### Components
 
